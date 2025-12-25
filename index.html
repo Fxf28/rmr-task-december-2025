@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solo Youth Insights 2025</title>
+
+    <!-- Favicon Configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="assets/favicon/site.webmanifest" />
+    <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#292F36" />
+    <meta name="msapplication-TileImage" content="assets/favicon/android-chrome-192x192.png" />
+    <meta name="theme-color" content="#292F36" />
+    <meta name="apple-mobile-web-app-title" content="Solo Youth Insights" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/charts.css" />
+
+    <!-- Tailwind Configuration -->
+    <script src="assets/js/config.js"></script>
+  </head>
+  <body class="bg-solo-light text-solo-dark font-sans min-h-screen flex flex-col">
+    <!-- Header Section -->
+    <div id="header-container"></div>
+
+    <!-- Hero Stats Section -->
+    <div id="hero-stats-container"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-6xl mx-auto px-4 py-8 md:py-12 w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+        <!-- Psychographic Profile -->
+        <div id="psychographic-container" class="lg:col-span-2"></div>
+
+        <!-- Digital Landscape -->
+        <div id="digital-landscape-container"></div>
+
+        <!-- Viral Topics -->
+        <div id="viral-topics-container"></div>
+
+        <!-- Hangout Culture -->
+        <div id="hangout-culture-container" class="lg:col-span-2"></div>
+
+        <!-- Education & Learning -->
+        <div id="education-container" class="lg:col-span-2"></div>
+
+        <!-- AI Strategy Generator -->
+        <div id="ai-strategy-container" class="lg:col-span-2"></div>
+
+        <!-- Marketing Strategy -->
+        <div id="marketing-strategy-container" class="lg:col-span-2"></div>
+
+        <!-- Data Sources -->
+        <div id="data-sources-container" class="lg:col-span-2"></div>
+      </div>
+    </main>
+
+    <!-- Footer Section -->
+    <div id="footer-container"></div>
+
+    <!-- JavaScript Files -->
+    <script src="assets/js/charts.js"></script>
+    <script src="assets/js/gemini.js"></script>
+
+    <!-- Component Loader -->
+    <script>
+      // Function to load components
+      async function loadComponent(componentName, targetId) {
+        try {
+          const response = await fetch(`components/${componentName}.html`);
+          const html = await response.text();
+          document.getElementById(targetId).innerHTML = html;
+        } catch (error) {
+          console.error(`Error loading ${componentName}:`, error);
+          // Fallback: Load from backup location or show error message
+          if (componentName === "header") {
+            document.getElementById(targetId).innerHTML = '<div class="bg-solo-dark text-white p-8 text-center">Error loading header</div>';
+          }
+        }
+      }
+
+      // Load all components when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        const components = [
+          { file: "header", target: "header-container" },
+          { file: "hero-stats", target: "hero-stats-container" },
+          { file: "psychographic-profile", target: "psychographic-container" },
+          { file: "digital-landscape", target: "digital-landscape-container" },
+          { file: "viral-topics", target: "viral-topics-container" },
+          { file: "hangout-culture", target: "hangout-culture-container" },
+          { file: "education-learning", target: "education-container" },
+          { file: "ai-strategy", target: "ai-strategy-container" },
+          { file: "marketing-strategy", target: "marketing-strategy-container" },
+          { file: "data-sources", target: "data-sources-container" },
+          { file: "footer", target: "footer-container" },
+        ];
+
+        // Load each component
+        components.forEach((comp) => {
+          loadComponent(comp.file, comp.target);
+        });
+
+        // Initialize charts after components are loaded
+        setTimeout(() => {
+          if (typeof initializeCharts === "function") {
+            initializeCharts();
+          }
+
+          // Initialize AI functions
+          if (typeof initializeAIFunctions === "function") {
+            initializeAIFunctions();
+          }
+        }, 500);
+      });
+    </script>
+  </body>
+</html>

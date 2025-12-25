@@ -1,0 +1,36 @@
+/* Chart Container Styling */
+.chart-container {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  height: 280px;
+}
+
+@media (min-width: 768px) {
+  .chart-container {
+    height: 350px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .chart-container {
+    max-width: 600px;
+  }
+}
+
+/* Responsive Chart Container */
+.responsive-chart {
+  height: 240px !important;
+}
+
+@media (min-width: 768px) {
+  .responsive-chart {
+    height: 280px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-chart {
+    height: 320px !important;
+  }
+}

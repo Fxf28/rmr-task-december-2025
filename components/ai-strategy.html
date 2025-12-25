@@ -1,0 +1,54 @@
+<section class="lg:col-span-2 bg-gradient-to-r from-solo-dark to-gray-800 text-white rounded-2xl shadow-2xl p-6 md:p-8 border border-solo-teal">
+  <div class="flex items-center mb-6">
+    <span class="text-3xl mr-3">✨</span>
+    <h2 class="text-2xl md:text-3xl font-bold text-solo-yellow">AI Strategy Generator (Powered by Gemini)</h2>
+  </div>
+
+  <p class="text-gray-300 mb-8 text-base md:text-lg">Gunakan kecerdasan buatan untuk merancang strategi yang tepat sasaran berdasarkan data riset anak muda Solo di atas.</p>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+    <!-- Campaign Strategy Generator -->
+    <div class="glass-card p-5 md:p-6 rounded-xl border border-white/20">
+      <h3 class="text-xl font-bold text-solo-teal mb-4">🚀 Buat Strategi Pemasaran</h3>
+      <p class="text-sm text-gray-300 mb-6">Masukkan produk atau bisnismu, AI akan membuatkan strategi peluncuran khusus untuk pasar anak muda Solo.</p>
+
+      <div class="space-y-4">
+        <input
+          type="text"
+          id="productInput"
+          placeholder="Contoh: Kopi Gula Aren, Thrift Shop, Course Koding..."
+          class="w-full p-3 rounded-lg bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-solo-teal border border-white/20"
+        />
+
+        <button onclick="generateStrategy()" class="w-full bg-solo-red hover:bg-red-500 text-white font-medium py-3 rounded-lg transition flex justify-center items-center gap-2">
+          <span>✨ Buat Strategi</span>
+          <div id="loaderStrategy" class="loader hidden"></div>
+        </button>
+      </div>
+
+      <div id="strategyResult" class="mt-6 p-4 glass-card rounded-lg hidden text-base leading-relaxed whitespace-pre-line"></div>
+    </div>
+
+    <!-- Ask the Data -->
+    <div class="glass-card p-5 md:p-6 rounded-xl border border-white/20">
+      <h3 class="text-xl font-bold text-solo-yellow mb-4">🤖 Tanya Insight Data</h3>
+      <p class="text-sm text-gray-300 mb-6">Tanyakan apa saja tentang perilaku atau preferensi anak muda Solo berdasarkan data riset ini.</p>
+
+      <div class="space-y-4">
+        <input
+          type="text"
+          id="questionInput"
+          placeholder="Contoh: Kenapa mereka suka nugas di cafe?"
+          class="w-full p-3 rounded-lg bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-solo-yellow border border-white/20"
+        />
+
+        <button onclick="askInsight()" class="w-full bg-solo-teal hover:bg-teal-500 text-white font-medium py-3 rounded-lg transition flex justify-center items-center gap-2">
+          <span>✨ Tanya AI</span>
+          <div id="loaderInsight" class="loader hidden"></div>
+        </button>
+      </div>
+
+      <div id="insightResult" class="mt-6 p-4 glass-card rounded-lg hidden text-base leading-relaxed whitespace-pre-line"></div>
+    </div>
+  </div>
+</section>
