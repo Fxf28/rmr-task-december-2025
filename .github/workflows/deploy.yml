@@ -2,86 +2,77 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:  # Manual trigger
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
     steps:
-      # Step 1: Checkout code
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1  # Hemat bandwidth
-          
-      # Step 2: Setup Pages (hanya sekali)
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
         
-      # Step 3: Inject API Key
-      - name: Inject Gemini API Key
+      - name: Create gemini-config.js with API Key
         run: |
-          echo "🔧 Injecting API Key..."
+          echo "🚀 Creating gemini-config.js..."
           
-          # Cek apakah template file ada
-          if [ ! -f "assets/js/gemini-config.template.js" ]; then
-            echo "❌ ERROR: Template file tidak ditemukan!"
-            echo "📁 Current directory:"
-            ls -la
-            echo "📁 assets/js/ directory:"
-            ls -la assets/js/ || echo "assets/js/ tidak ada"
+          # Buat folder jika belum ada
+          mkdir -p assets/js
+          
+          # Langsung buat file dengan API Key dari secrets
+          # Perhatikan: menggunakan EOF tanpa quote agar variable diganti
+          cat > assets/js/gemini-config.js << EOF
+          # Gemini API Configuration - Generated $(date)
+          const GEMINI_CONFIG = { 
+            apiKey: "${{ secrets.GEMINI_API_KEY }}", 
+            apiEndpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent',
+            systemContext: \`Anda adalah pakar riset pasar dan strategi pemasaran yang mengkhususkan diri pada demografi Anak Muda (Gen Z) di Kota Solo (Surakarta), Indonesia.
+            Gunakan data berikut sebagai basis pengetahuan Anda:
+            - Profil Psikografis: "The Santuy Hustler", santai tapi produktif, communal oriented (FOMO), smart spender (price sensitive).
+            - Media Sosial: TikTok (Search engine), Instagram (Lifestyle/Aesthetic), X/Twitter (Info & Sambat).
+            - Topik Viral: Hidden gem kuliner, Campus Life (UNS/UMS), Event/Konser lokal.
+            - Perilaku Nongkrong: Cafe adalah kantor kedua. Prioritas utama: WiFi & Colokan. Area favorit: Jebres (UNS) & Pabelan (UMS).
+            - Minat Belajar: Digital Marketing, Content Creation, Bahasa Inggris. Hambatan: Biaya mahal (>150rb), Lokasi jauh.
+            - Strategi Marketing Efektif: Promo KTM (Mahasiswa), Community Partnership, Visual Aesthetic, Bahasa campuran Indo-Jawa santai.
+            Gaya bicara Anda: Profesional namun santai, menggunakan istilah anak muda yang relevan, dan memberikan saran praktis yang bisa langsung diterapkan di Solo.\`,
+          
+            isValid: function() {
+                // Simple validation
+                return this.apiKey && this.apiKey.length > 30;
+            },
+    
+            getApiKey: function() {
+                if (!this.isValid()) {
+                    console.error('❌ API Key invalid. Check GitHub Secrets.');
+                    return null;
+                }
+                return this.apiKey;
+            }
+          };
+    
+          # Debug info
+          console.log('🔧 gemini-config.js loaded');
+          console.log('API Key present:', !!GEMINI_CONFIG.apiKey);
+          EOF
+          
+          # Verifikasi
+          echo "✅ File created. Checking..."
+          if [ -f "assets/js/gemini-config.js" ]; then
+            echo "📁 File exists. Size: $(wc -c < assets/js/gemini-config.js) bytes"
+            echo "🔍 First 50 chars:"
+            head -c 100 assets/js/gemini-config.js
+            echo ""
+          else
+            echo "❌ ERROR: File not created"
             exit 1
           fi
           
-          # Buat file config dari template
-          cp assets/js/gemini-config.template.js assets/js/gemini-config.js
-          
-          # Inject API Key jika ada
-          if [ -n "${{ secrets.GEMINI_API_KEY }}" ]; then
-            echo "🔑 API Key ditemukan, melakukan injection..."
-            
-            # Gunakan @ sebagai delimiter untuk menghindari escape issues
-            sed -i "s|{{GEMINI_API_KEY}}|${{ secrets.GEMINI_API_KEY }}|g" assets/js/gemini-config.js
-            
-            # Verifikasi perubahan
-            if grep -q "AIzaSy" assets/js/gemini-config.js; then
-              echo "✅ API Key berhasil di-inject"
-              echo "📊 Panjang API Key: $(wc -c < assets/js/gemini-config.js) bytes"
-            else
-              echo "⚠️ Warning: API Key mungkin tidak ter-inject dengan benar"
-            fi
-          else
-            echo "⚠️ WARNING: GEMINI_API_KEY tidak ditemukan di GitHub Secrets"
-            echo "ℹ️ Fitur AI akan disabled di production"
-            echo "📝 Untuk setup, buka: Settings > Secrets and variables > Actions"
-          fi
-          
-          # Tampilkan preview file (tanpa key lengkap)
-          echo "📄 File config berhasil dibuat:"
-          head -5 assets/js/gemini-config.js
-          
-      # Step 4: Upload artifact dengan path yang benar
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+        
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v2
         with:
-          path: '.'  # Upload seluruh folder
-      # Step 5: Deploy
+          path: '.'
+          
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v2
