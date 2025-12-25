@@ -1,5 +1,5 @@
 // Gemini API Configuration
-const apiKey = "AIzaSyD_XNo4aCpiqisaC5pU-KLDryqyAsuOdtg";
+const apiKey = "{{GEMINI_API_KEY}}";
 
 const systemContext = `Anda adalah pakar riset pasar dan strategi pemasaran yang mengkhususkan diri pada demografi Anak Muda (Gen Z) di Kota Solo (Surakarta), Indonesia.
 Gunakan data berikut sebagai basis pengetahuan Anda:
