@@ -2,71 +2,86 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   workflow_dispatch:  # Manual trigger
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    environment: github-pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
+      # Step 1: Checkout code
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1  # Hemat bandwidth
+          
+      # Step 2: Setup Pages (hanya sekali)
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
         
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v3
-        
+      # Step 3: Inject API Key
       - name: Inject Gemini API Key
         run: |
-          # Buat file gemini-config.js dari template
-          if [ -f "assets/js/gemini-config.template.js" ]; then
-            # Copy template
-            cp assets/js/gemini-config.template.js assets/js/gemini-config.js
+          echo "🔧 Injecting API Key..."
+          
+          # Cek apakah template file ada
+          if [ ! -f "assets/js/gemini-config.template.js" ]; then
+            echo "❌ ERROR: Template file tidak ditemukan!"
+            echo "📁 Current directory:"
+            ls -la
+            echo "📁 assets/js/ directory:"
+            ls -la assets/js/ || echo "assets/js/ tidak ada"
+            exit 1
+          fi
+          
+          # Buat file config dari template
+          cp assets/js/gemini-config.template.js assets/js/gemini-config.js
+          
+          # Inject API Key jika ada
+          if [ -n "${{ secrets.GEMINI_API_KEY }}" ]; then
+            echo "🔑 API Key ditemukan, melakukan injection..."
             
-            # Inject API Key dari GitHub Secrets
-            if [ -n "${{ secrets.GEMINI_API_KEY }}" ]; then
-              # Escape special characters untuk sed
-              API_KEY=$(echo "${{ secrets.GEMINI_API_KEY }}" | sed 's/[&/\]/\\&/g')
-              sed -i "s/{{GEMINI_API_KEY}}/${API_KEY}/g" assets/js/gemini-config.js
-              
-              # Tampilkan info tanpa menampilkan key
-              KEY_LENGTH=${#API_KEY}
-              echo "✅ API Key berhasil di-inject (panjang: ${KEY_LENGTH} karakter)"
-              echo "🔒 API Key aman tersimpan di GitHub Secrets"
+            # Gunakan @ sebagai delimiter untuk menghindari escape issues
+            sed -i "s|{{GEMINI_API_KEY}}|${{ secrets.GEMINI_API_KEY }}|g" assets/js/gemini-config.js
+            
+            # Verifikasi perubahan
+            if grep -q "AIzaSy" assets/js/gemini-config.js; then
+              echo "✅ API Key berhasil di-inject"
+              echo "📊 Panjang API Key: $(wc -c < assets/js/gemini-config.js) bytes"
             else
-              echo "⚠️ PERINGATAN: GEMINI_API_KEY tidak ditemukan di GitHub Secrets"
-              echo "⚠️ Fitur AI akan dinonaktifkan di website production"
-              echo "ℹ️ Untuk menggunakan fitur AI, tambahkan secret di:"
-              echo "   Settings → Secrets and variables → Actions → New repository secret"
+              echo "⚠️ Warning: API Key mungkin tidak ter-inject dengan benar"
             fi
           else
-            echo "❌ ERROR: Template file gemini-config.template.js tidak ditemukan"
-            echo "❌ Pastikan file ada di: assets/js/gemini-config.template.js"
-            exit 1
+            echo "⚠️ WARNING: GEMINI_API_KEY tidak ditemukan di GitHub Secrets"
+            echo "ℹ️ Fitur AI akan disabled di production"
+            echo "📝 Untuk setup, buka: Settings > Secrets and variables > Actions"
           fi
           
-          # Verifikasi file berhasil dibuat
-          if [ -f "assets/js/gemini-config.js" ]; then
-            echo "✅ File config berhasil dibuat: assets/js/gemini-config.js"
-          else
-            echo "❌ ERROR: Gagal membuat gemini-config.js"
-            exit 1
-          fi
+          # Tampilkan preview file (tanpa key lengkap)
+          echo "📄 File config berhasil dibuat:"
+          head -5 assets/js/gemini-config.js
           
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-        
+      # Step 4: Upload artifact dengan path yang benar
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
-          
+          path: '.'  # Upload seluruh folder
+      # Step 5: Deploy
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
