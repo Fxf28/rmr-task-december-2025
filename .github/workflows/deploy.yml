@@ -2,8 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches: [main]
+  workflow_dispatch: # Manual trigger
 
 permissions:
   contents: read
@@ -11,103 +11,81 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Generate Gemini config
-        id: gemini
-        run: |
-          mkdir -p assets/js
-
-          if [ -n "${{ secrets.GEMINI_API_KEY }}" ]; then
-            echo "Using GEMINI_API_KEY from secrets"
-
-            cat > assets/js/gemini-config.js <<'EOF'
-const GEMINI_CONFIG = {
-  apiKey: "__API_KEY__",
-  apiEndpoint: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent",
-
-  systemContext: `
-Anda adalah pakar riset pasar Gen Z di Kota Solo (Surakarta), Indonesia.
-Fokus pada perilaku digital, media sosial, dan strategi marketing lokal.
-`,
-
-  isValid() {
-    return (
-      this.apiKey &&
-      this.apiKey.startsWith("AIza") &&
-      this.apiKey.length > 30
-    );
-  },
-
-  getApiKey() {
-    return this.isValid() ? this.apiKey : null;
-  }
-};
-
-console.log("Gemini config loaded:", {
-  valid: GEMINI_CONFIG.isValid(),
-  preview: GEMINI_CONFIG.apiKey?.slice(0, 8) + "..."
-});
-EOF
-
-            sed -i "s|__API_KEY__|${{ secrets.GEMINI_API_KEY }}|g" assets/js/gemini-config.js
-            echo "configured=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "GEMINI_API_KEY not found, using fallback config"
-
-            cat > assets/js/gemini-config.js <<'EOF'
-const GEMINI_CONFIG = {
-  apiKey: null,
-  apiEndpoint: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent",
-
-  isValid() {
-    console.warn("Gemini API disabled: missing API key");
-    return false;
-  },
-
-  getApiKey() {
-    return null;
-  }
-};
-
-console.warn("AI features disabled");
-EOF
-
-            echo "configured=false" >> "$GITHUB_OUTPUT"
-          fi
+        with:
+          fetch-depth: 1
 
       - name: Setup Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v4
 
-      - name: Upload Pages artifact
+      - name: Inject Gemini API Key
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "🔧 Injecting API Key..."
+
+          # cek template ada
+          if [ ! -f "assets/js/gemini-config.template.js" ]; then
+            echo "❌ ERROR: Template file assets/js/gemini-config.template.js tidak ditemukan!"
+            echo "📁 Root dir listing:"
+            ls -la
+            echo "📁 assets/js listing:"
+            ls -la assets/js || echo "assets/js tidak ada"
+            exit 1
+          fi
+
+          # copy template -> config
+          cp assets/js/gemini-config.template.js assets/js/gemini-config.js
+          echo "📄 Created assets/js/gemini-config.js from template"
+
+          # inject key jika tersedia
+          if [ -n "${{ secrets.GEMINI_API_KEY }}" ]; then
+            echo "🔑 GEMINI_API_KEY found — injecting..."
+            # replace placeholder with secret (delimiter |)
+            sed -i "s|{{GEMINI_API_KEY}}|${{ secrets.GEMINI_API_KEY }}|g" assets/js/gemini-config.js
+
+            # verifikasi sederhana: cari pola kunci (AIza) di file
+            if grep -q "AIza" assets/js/gemini-config.js; then
+              echo "✅ API Key berhasil di-inject (detected pattern)"
+            else
+              echo "⚠️ Warning: Tidak menemukan pola key setelah inject (cek template placeholder)"
+            fi
+          else
+            echo "⚠️ WARNING: GEMINI_API_KEY tidak ditemukan di GitHub Secrets. AI akan dinonaktifkan."
+          fi
+
+          # SAFE preview: mask baris apiKey untuk menghindari leak ke logs
+          echo "📄 Safe preview (first 10 lines, apiKey masked):"
+          awk '
+            BEGIN { printed=0 }
+            { 
+              if ($0 ~ /apiKey/ && printed < 10) {
+                gsub(/:.*/, ": \"***REDACTED***\",")
+                print
+              } else if (printed < 10) {
+                print
+              }
+              printed++
+            }
+          ' assets/js/gemini-config.js | head -n 10
+
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: "."
 
-      - name: Deploy to Pages
-        id: deploy
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
-
-      - name: Deployment summary
-        if: always()
-        run: |
-          echo "================================"
-          echo "GitHub Pages Deployment Complete"
-          echo "URL       : ${{ steps.deploy.outputs.page_url }}"
-          echo "Gemini AI : ${{ steps.gemini.outputs.configured }}"
-          echo "Commit    : ${{ github.sha }}"
-          echo "Trigger   : ${{ github.event_name }}"
-          echo "================================"
