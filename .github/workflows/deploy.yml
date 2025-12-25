@@ -40,40 +40,39 @@ jobs:
           # --- PERHATIAN: Tidak ada indentasi di dalam blok EOF ---
           # Blok 'EOF' tanpa tanda kutip memungkinkan substitusi variabel GitHub (${{ secrets.GEMINI_API_KEY }})
           cat > assets/js/gemini-config.js << EOF
-// Gemini API Configuration - Generated $(date)
-const GEMINI_CONFIG = {
-    apiKey: "${{ secrets.GEMINI_API_KEY }}",
-    apiEndpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent',
-    
-    systemContext: \`Anda adalah pakar riset pasar dan strategi pemasaran yang mengkhususkan diri pada demografi Anak Muda (Gen Z) di Kota Solo (Surakarta), Indonesia.
-Gunakan data berikut sebagai basis pengetahuan Anda:
-- Profil Psikografis: "The Santuy Hustler", santai tapi produktif, communal oriented (FOMO), smart spender (price sensitive).
-- Media Sosial: TikTok (Search engine), Instagram (Lifestyle/Aesthetic), X/Twitter (Info & Sambat).
-- Topik Viral: Hidden gem kuliner, Campus Life (UNS/UMS), Event/Konser lokal.
-- Perilaku Nongkrong: Cafe adalah kantor kedua. Prioritas utama: WiFi & Colokan. Area favorit: Jebres (UNS) & Pabelan (UMS).
-- Minat Belajar: Digital Marketing, Content Creation, Bahasa Inggris. Hambatan: Biaya mahal (>150rb), Lokasi jauh.
-- Strategi Marketing Efektif: Promo KTM (Mahasiswa), Community Partnership, Visual Aesthetic, Bahasa campuran Indo-Jawa santai.
+          # Gemini API Configuration - Generated $(date)
+          const GEMINI_CONFIG = {
+          apiKey: "${{ secrets.GEMINI_API_KEY }}",
+          apiEndpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent',
+          systemContext: \`Anda adalah pakar riset pasar dan strategi pemasaran yang mengkhususkan diri pada demografi Anak Muda (Gen Z) di Kota Solo (Surakarta), Indonesia.
+          Gunakan data berikut sebagai basis pengetahuan Anda:
+          - Profil Psikografis: "The Santuy Hustler", santai tapi produktif, communal oriented (FOMO), smart spender (price sensitive).
+          - Media Sosial: TikTok (Search engine), Instagram (Lifestyle/Aesthetic), X/Twitter (Info & Sambat).
+          - Topik Viral: Hidden gem kuliner, Campus Life (UNS/UMS), Event/Konser lokal.
+          - Perilaku Nongkrong: Cafe adalah kantor kedua. Prioritas utama: WiFi & Colokan. Area favorit: Jebres (UNS) & Pabelan (UMS).
+          - Minat Belajar: Digital Marketing, Content Creation, Bahasa Inggris. Hambatan: Biaya mahal (>150rb), Lokasi jauh.
+          - Strategi Marketing Efektif: Promo KTM (Mahasiswa), Community Partnership, Visual Aesthetic, Bahasa campuran Indo-Jawa santai.
+          
+          Gaya bicara Anda: Profesional namun santai, menggunakan istilah anak muda yang relevan, dan memberikan saran praktis yang bisa langsung diterapkan di Solo.\`,
 
-Gaya bicara Anda: Profesional namun santai, menggunakan istilah anak muda yang relevan, dan memberikan saran praktis yang bisa langsung diterapkan di Solo.\`,
+          isValid: function() {
+              // Validasi sederhana: cek keberadaan dan panjang API Key
+              return this.apiKey && this.apiKey.length > 30;
+          },
 
-    isValid: function() {
-        // Validasi sederhana: cek keberadaan dan panjang API Key
-        return this.apiKey && this.apiKey.length > 30;
-    },
+          getApiKey: function() {
+              if (!this.isValid()) {
+                  console.error('❌ API Key tidak valid. Periksa GitHub Secrets.');
+                  return null;
+              }
+              return this.apiKey;
+          }
+          };
 
-    getApiKey: function() {
-        if (!this.isValid()) {
-            console.error('❌ API Key tidak valid. Periksa GitHub Secrets.');
-            return null;
-        }
-        return this.apiKey;
-    }
-};
-
-// Info debug saat file diload
-console.log('🔧 gemini-config.js berhasil dimuat');
-console.log('API Key tersedia:', !!GEMINI_CONFIG.apiKey);
-EOF
+          // Info debug saat file diload
+          console.log('🔧 gemini-config.js berhasil dimuat');
+          console.log('API Key tersedia:', !!GEMINI_CONFIG.apiKey);
+          EOF
           # --- Akhir dari blok EOF ---
           
           echo "✅ File berhasil dibuat."
