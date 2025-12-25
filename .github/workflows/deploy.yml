@@ -2,106 +2,112 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main] # Trigger saat push ke branch 'main'
-  workflow_dispatch: # Memungkinkan pemicuan manual dari tab Actions
+    branches: [ main ]
+  workflow_dispatch:
 
-# Izin yang diperlukan untuk deployment Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Konkurensi: Hanya satu deployment yang berjalan dalam satu waktu
 concurrency:
-  group: 'pages'
+  group: pages
   cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # Mengatur environment GitHub Pages untuk tracking dan URL
+
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
+      url: ${{ steps.deploy.outputs.page_url }}
+
     steps:
-      # Step 1: Mengambil kode dari repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Membuat file konfigurasi Gemini dengan API Key dari GitHub Secrets
-      - name: Buat file konfigurasi Gemini
+      - name: Generate Gemini config
+        id: gemini
         run: |
-          echo "🚀 Membuat file gemini-config.js..."
-          
-          # Buat direktori 'assets/js' jika belum ada
           mkdir -p assets/js
-          
-          # --- PERHATIAN: Tidak ada indentasi di dalam blok EOF ---
-          # Blok 'EOF' tanpa tanda kutip memungkinkan substitusi variabel GitHub (${{ secrets.GEMINI_API_KEY }})
-          cat > assets/js/gemini-config.js << EOF
-          # Gemini API Configuration - Generated $(date)
-          const GEMINI_CONFIG = {
-          apiKey: "${{ secrets.GEMINI_API_KEY }}",
-          apiEndpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent',
-          systemContext: \`Anda adalah pakar riset pasar dan strategi pemasaran yang mengkhususkan diri pada demografi Anak Muda (Gen Z) di Kota Solo (Surakarta), Indonesia.
-          Gunakan data berikut sebagai basis pengetahuan Anda:
-          - Profil Psikografis: "The Santuy Hustler", santai tapi produktif, communal oriented (FOMO), smart spender (price sensitive).
-          - Media Sosial: TikTok (Search engine), Instagram (Lifestyle/Aesthetic), X/Twitter (Info & Sambat).
-          - Topik Viral: Hidden gem kuliner, Campus Life (UNS/UMS), Event/Konser lokal.
-          - Perilaku Nongkrong: Cafe adalah kantor kedua. Prioritas utama: WiFi & Colokan. Area favorit: Jebres (UNS) & Pabelan (UMS).
-          - Minat Belajar: Digital Marketing, Content Creation, Bahasa Inggris. Hambatan: Biaya mahal (>150rb), Lokasi jauh.
-          - Strategi Marketing Efektif: Promo KTM (Mahasiswa), Community Partnership, Visual Aesthetic, Bahasa campuran Indo-Jawa santai.
-          
-          Gaya bicara Anda: Profesional namun santai, menggunakan istilah anak muda yang relevan, dan memberikan saran praktis yang bisa langsung diterapkan di Solo.\`,
 
-          isValid: function() {
-              // Validasi sederhana: cek keberadaan dan panjang API Key
-              return this.apiKey && this.apiKey.length > 30;
-          },
+          if [ -n "${{ secrets.GEMINI_API_KEY }}" ]; then
+            echo "Using GEMINI_API_KEY from secrets"
 
-          getApiKey: function() {
-              if (!this.isValid()) {
-                  console.error('❌ API Key tidak valid. Periksa GitHub Secrets.');
-                  return null;
-              }
-              return this.apiKey;
-          }
-          };
+            cat > assets/js/gemini-config.js <<'EOF'
+const GEMINI_CONFIG = {
+  apiKey: "__API_KEY__",
+  apiEndpoint: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent",
 
-          // Info debug saat file diload
-          console.log('🔧 gemini-config.js berhasil dimuat');
-          console.log('API Key tersedia:', !!GEMINI_CONFIG.apiKey);
-          EOF
-          # --- Akhir dari blok EOF ---
-          
-          echo "✅ File berhasil dibuat."
-          
-          # Verifikasi: Cek apakah file berhasil dibuat dan berisi API Key
-          if [ -f "assets/js/gemini-config.js" ]; then
-            echo "📁 Ukuran file: $(wc -c < assets/js/gemini-config.js) bytes"
-            # Tampilkan preview 100 karakter pertama (tanpa menampilkan key lengkap)
-            echo "🔍 Pratinjau file:"
-            head -c 100 assets/js/gemini-config.js
-            echo ""
+  systemContext: `
+Anda adalah pakar riset pasar Gen Z di Kota Solo (Surakarta), Indonesia.
+Fokus pada perilaku digital, media sosial, dan strategi marketing lokal.
+`,
+
+  isValid() {
+    return (
+      this.apiKey &&
+      this.apiKey.startsWith("AIza") &&
+      this.apiKey.length > 30
+    );
+  },
+
+  getApiKey() {
+    return this.isValid() ? this.apiKey : null;
+  }
+};
+
+console.log("Gemini config loaded:", {
+  valid: GEMINI_CONFIG.isValid(),
+  preview: GEMINI_CONFIG.apiKey?.slice(0, 8) + "..."
+});
+EOF
+
+            sed -i "s|__API_KEY__|${{ secrets.GEMINI_API_KEY }}|g" assets/js/gemini-config.js
+            echo "configured=true" >> "$GITHUB_OUTPUT"
           else
-            echo "❌ ERROR: File gagal dibuat"
-            exit 1 # Gagalkan workflow jika file tidak ada
+            echo "GEMINI_API_KEY not found, using fallback config"
+
+            cat > assets/js/gemini-config.js <<'EOF'
+const GEMINI_CONFIG = {
+  apiKey: null,
+  apiEndpoint: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent",
+
+  isValid() {
+    console.warn("Gemini API disabled: missing API key");
+    return false;
+  },
+
+  getApiKey() {
+    return null;
+  }
+};
+
+console.warn("AI features disabled");
+EOF
+
+            echo "configured=false" >> "$GITHUB_OUTPUT"
           fi
 
-      # Step 3: Menyiapkan konfigurasi GitHub Pages
-      - name: Setup GitHub Pages
+      - name: Setup Pages
         uses: actions/configure-pages@v3
 
-      # Step 4: Mengunggah seluruh konten direktori sebagai artifact Pages
-      # PERUBAHAN PENTING: Upgrade dari v2 ke v3 untuk kompatibilitas
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3 # Upgraded from @v2[citation:7][citation:10]
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: '.' # Mengunggah seluruh isi direktori (termasuk index.html, assets/, components/)
+          path: .
 
-      # Step 5: Melakukan deployment ke GitHub Pages
-      # PERUBAHAN PENTING: Upgrade dari v2 ke v4 untuk sinkronisasi dengan upload artifact
-      - name: Deploy to GitHub Pages
-        id: deployment # ID untuk mengakses output (seperti URL)
-        uses: actions/deploy-pages@v4 # Upgraded from @v2[citation:7][citation:10]
+      - name: Deploy to Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Deployment summary
+        if: always()
+        run: |
+          echo "================================"
+          echo "GitHub Pages Deployment Complete"
+          echo "URL       : ${{ steps.deploy.outputs.page_url }}"
+          echo "Gemini AI : ${{ steps.gemini.outputs.configured }}"
+          echo "Commit    : ${{ github.sha }}"
+          echo "Trigger   : ${{ github.event_name }}"
+          echo "================================"
