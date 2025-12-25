@@ -2,8 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main, master]
-  workflow_dispatch: # Manual trigger
+    branches: [ main, master ]
+  workflow_dispatch:  # Manual trigger
 
 permissions:
   contents: read
@@ -13,14 +13,15 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
+    environment: github-pages
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
+        
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v3
-
+        
       - name: Inject Gemini API Key
         run: |
           # Buat file gemini-config.js dari template
@@ -30,28 +31,42 @@ jobs:
             
             # Inject API Key dari GitHub Secrets
             if [ -n "${{ secrets.GEMINI_API_KEY }}" ]; then
-              sed -i "s/{{GEMINI_API_KEY}}/${{ secrets.GEMINI_API_KEY }}/g" assets/js/gemini-config.js
-              echo "✅ API Key berhasil di-inject ke gemini-config.js"
-              echo "✅ API Key preview: ${{ secrets.GEMINI_API_KEY:0:10 }}..."
+              # Escape special characters untuk sed
+              API_KEY=$(echo "${{ secrets.GEMINI_API_KEY }}" | sed 's/[&/\]/\\&/g')
+              sed -i "s/{{GEMINI_API_KEY}}/${API_KEY}/g" assets/js/gemini-config.js
+              
+              # Tampilkan info tanpa menampilkan key
+              KEY_LENGTH=${#API_KEY}
+              echo "✅ API Key berhasil di-inject (panjang: ${KEY_LENGTH} karakter)"
+              echo "🔒 API Key aman tersimpan di GitHub Secrets"
             else
               echo "⚠️ PERINGATAN: GEMINI_API_KEY tidak ditemukan di GitHub Secrets"
               echo "⚠️ Fitur AI akan dinonaktifkan di website production"
-              echo "ℹ️ Untuk development, buat file gemini-config.js manual di lokal"
+              echo "ℹ️ Untuk menggunakan fitur AI, tambahkan secret di:"
+              echo "   Settings → Secrets and variables → Actions → New repository secret"
             fi
           else
             echo "❌ ERROR: Template file gemini-config.template.js tidak ditemukan"
+            echo "❌ Pastikan file ada di: assets/js/gemini-config.template.js"
             exit 1
           fi
-
-      - name: Create CNAME file (optional)
-        if: env.CUSTOM_DOMAIN
-        run: |
-          echo "${{ secrets.CUSTOM_DOMAIN }}" > CNAME
-
+          
+          # Verifikasi file berhasil dibuat
+          if [ -f "assets/js/gemini-config.js" ]; then
+            echo "✅ File config berhasil dibuat: assets/js/gemini-config.js"
+          else
+            echo "❌ ERROR: Gagal membuat gemini-config.js"
+            exit 1
+          fi
+          
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+        
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: "."
-
+          path: '.'
+          
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v2
