@@ -2,8 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches: [main, master]
+  workflow_dispatch: # Manual trigger
 
 permissions:
   contents: read
@@ -11,24 +11,47 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Replace API Key placeholder
-        run: |
-          # Ganti placeholder di api-key.js dengan secret
-          sed -i "s/{{GEMINI_API_KEY}}/${{ secrets.GEMINI_API_KEY }}/g" assets/js/api-key.js
-
-      - name: Setup Pages
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v3
+
+      - name: Inject Gemini API Key
+        run: |
+          # Buat file gemini-config.js dari template
+          if [ -f "assets/js/gemini-config.template.js" ]; then
+            # Copy template
+            cp assets/js/gemini-config.template.js assets/js/gemini-config.js
+            
+            # Inject API Key dari GitHub Secrets
+            if [ -n "${{ secrets.GEMINI_API_KEY }}" ]; then
+              sed -i "s/{{GEMINI_API_KEY}}/${{ secrets.GEMINI_API_KEY }}/g" assets/js/gemini-config.js
+              echo "✅ API Key berhasil di-inject ke gemini-config.js"
+              echo "✅ API Key preview: ${{ secrets.GEMINI_API_KEY:0:10 }}..."
+            else
+              echo "⚠️ PERINGATAN: GEMINI_API_KEY tidak ditemukan di GitHub Secrets"
+              echo "⚠️ Fitur AI akan dinonaktifkan di website production"
+              echo "ℹ️ Untuk development, buat file gemini-config.js manual di lokal"
+            fi
+          else
+            echo "❌ ERROR: Template file gemini-config.template.js tidak ditemukan"
+            exit 1
+          fi
+
+      - name: Create CNAME file (optional)
+        if: env.CUSTOM_DOMAIN
+        run: |
+          echo "${{ secrets.CUSTOM_DOMAIN }}" > CNAME
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: '.'
+          path: "."
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v2

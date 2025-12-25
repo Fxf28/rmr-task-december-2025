@@ -1,0 +1,11 @@
+# API Config files
+assets/js/gemini-config.js
+
+# Local development files
+.env
+.env.local
+*.env*
+
+# System files
+.DS_Store
+Thumbs.db
