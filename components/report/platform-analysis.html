@@ -181,79 +181,356 @@
   </div>
 
   <!-- Platform Strategy Matrix -->
-  <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-8 mb-8">
-    <h3 class="text-2xl font-bold text-solo-dark mb-6">🎯 Matriks Strategi Platform</h3>
+  <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-4 md:p-6 lg:p-8 mb-6 md:mb-8">
+    <div class="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
+      <div class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg md:rounded-xl flex items-center justify-center flex-shrink-0">
+        <span class="text-white text-lg md:text-xl">🎯</span>
+      </div>
+      <h3 class="text-xl md:text-2xl lg:text-3xl font-bold text-solo-dark">Matriks Strategi Platform</h3>
+    </div>
 
-    <div class="overflow-x-auto">
-      <table class="w-full bg-white rounded-lg overflow-hidden shadow-sm">
-        <thead>
-          <tr class="bg-solo-primary text-white">
-            <th class="p-4 text-left">Platform</th>
-            <th class="p-4 text-left">Target Audience</th>
-            <th class="p-4 text-left">Content Strategy</th>
-            <th class="p-4 text-left">Optimal Posting Time</th>
-            <th class="p-4 text-left">Engagement Rate</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-b border-gray-200 hover:bg-gray-50">
-            <td class="p-4 font-bold text-[#1877F2]">Facebook</td>
-            <td class="p-4">Orang tua, alumni, komunitas</td>
-            <td class="p-4">Diskusi mendalam, webinar, sharing pengalaman</td>
-            <td class="p-4">19.00 - 22.00 WIB</td>
-            <td class="p-4">
-              <div class="flex items-center">
-                <div class="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="h-full bg-blue-500" style="width: 70%"></div>
-                </div>
-                <span class="ml-2 font-bold">70%</span>
-              </div>
-            </td>
-          </tr>
-          <tr class="border-b border-gray-200 hover:bg-gray-50">
-            <td class="p-4 font-bold text-[#E4405F]">Instagram</td>
-            <td class="p-4">Gen Z, siswa SMA, mahasiswa</td>
-            <td class="p-4">Visual content, Reels, Stories Q&A</td>
-            <td class="p-4">17.00 - 21.00 WIB</td>
-            <td class="p-4">
-              <div class="flex items-center">
-                <div class="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="h-full bg-pink-500" style="width: 85%"></div>
-                </div>
-                <span class="ml-2 font-bold">85%</span>
-              </div>
-            </td>
-          </tr>
-          <tr class="border-b border-gray-200 hover:bg-gray-50">
-            <td class="p-4 font-bold">TikTok</td>
-            <td class="p-4">Gen Z (15-24), siswa & fresh grad</td>
-            <td class="p-4">Edu-tainment, quick tips, day-in-life</td>
-            <td class="p-4">18.00 - 23.00 WIB</td>
-            <td class="p-4">
-              <div class="flex items-center">
-                <div class="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="h-full bg-gray-800" style="width: 90%"></div>
-                </div>
-                <span class="ml-2 font-bold">90%</span>
-              </div>
-            </td>
-          </tr>
-          <tr class="hover:bg-gray-50">
-            <td class="p-4 font-bold text-[#1DA1F2]">Twitter/X</td>
-            <td class="p-4">Profesional muda, mahasiswa S2/S3</td>
-            <td class="p-4">Real-time updates, networking, threads</td>
-            <td class="p-4">12.00 - 15.00 WIB</td>
-            <td class="p-4">
-              <div class="flex items-center">
-                <div class="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="h-full bg-sky-500" style="width: 60%"></div>
-                </div>
-                <span class="ml-2 font-bold">60%</span>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Desktop/Tablet View - FIXED -->
+    <div class="hidden md:block rounded-lg md:rounded-xl shadow-sm bg-white">
+      <div class="overflow-x-auto w-full">
+        <div class="min-w-[800px] lg:min-w-[1000px] xl:min-w-full">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-gradient-to-r from-blue-300 to-blue-600 text-white">
+                <th class="p-3 md:p-4 text-left text-sm md:text-base font-semibold whitespace-nowrap">Platform</th>
+                <th class="p-3 md:p-4 text-left text-sm md:text-base font-semibold whitespace-nowrap">Target Audience</th>
+                <th class="p-3 md:p-4 text-left text-sm md:text-base font-semibold whitespace-nowrap">Content Strategy</th>
+                <th class="p-3 md:p-4 text-left text-sm md:text-base font-semibold whitespace-nowrap">Optimal Posting Time</th>
+                <th class="p-3 md:p-4 text-left text-sm md:text-base font-semibold whitespace-nowrap">Engagement Rate</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <!-- Facebook -->
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="p-3 md:p-4 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-[#1877F2] rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span class="text-white font-bold text-sm">f</span>
+                    </div>
+                    <span class="font-bold text-[#1877F2] text-sm md:text-base">Facebook</span>
+                  </div>
+                </td>
+                <td class="p-3 md:p-4 text-sm md:text-base text-gray-700 min-w-[180px]">Orang tua, alumni, komunitas</td>
+                <td class="p-3 md:p-4 text-sm md:text-base text-gray-700 min-w-[200px]">Diskusi mendalam, webinar, sharing pengalaman</td>
+                <td class="p-3 md:p-4 text-sm md:text-base text-gray-700 font-medium whitespace-nowrap">19.00 - 22.00 WIB</td>
+                <td class="p-3 md:p-4 min-w-[150px]">
+                  <div class="flex items-center gap-2 md:gap-3">
+                    <div class="flex-1 min-w-[80px] h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div class="h-full bg-blue-500 rounded-full" style="width: 70%"></div>
+                    </div>
+                    <span class="font-bold text-blue-600 text-sm md:text-base whitespace-nowrap flex-shrink-0">70%</span>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Instagram -->
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="p-3 md:p-4 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCAF45] rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span class="text-white font-bold text-sm">IG</span>
+                    </div>
+                    <span class="font-bold text-[#E4405F] text-sm md:text-base">Instagram</span>
+                  </div>
+                </td>
+                <td class="p-3 md:p-4 text-sm md:text-base text-gray-700 min-w-[180px]">Gen Z, siswa SMA, mahasiswa</td>
+                <td class="p-3 md:p-4 text-sm md:text-base text-gray-700 min-w-[200px]">Visual content, Reels, Stories Q&A</td>
+                <td class="p-3 md:p-4 text-sm md:text-base text-gray-700 font-medium whitespace-nowrap">17.00 - 21.00 WIB</td>
+                <td class="p-3 md:p-4 min-w-[150px]">
+                  <div class="flex items-center gap-2 md:gap-3">
+                    <div class="flex-1 min-w-[80px] h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-[#833AB4] to-[#FD1D1D] rounded-full" style="width: 85%"></div>
+                    </div>
+                    <span class="font-bold text-[#E4405F] text-sm md:text-base whitespace-nowrap flex-shrink-0">85%</span>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- TikTok -->
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="p-3 md:p-4 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span class="text-white font-bold text-sm">TT</span>
+                    </div>
+                    <span class="font-bold text-gray-900 text-sm md:text-base">TikTok</span>
+                  </div>
+                </td>
+                <td class="p-3 md:p-4 text-sm md:text-base text-gray-700 min-w-[180px]">Gen Z (15-24), siswa & fresh grad</td>
+                <td class="p-3 md:p-4 text-sm md:text-base text-gray-700 min-w-[200px]">Edu-tainment, quick tips, day-in-life</td>
+                <td class="p-3 md:p-4 text-sm md:text-base text-gray-700 font-medium whitespace-nowrap">18.00 - 23.00 WIB</td>
+                <td class="p-3 md:p-4 min-w-[150px]">
+                  <div class="flex items-center gap-2 md:gap-3">
+                    <div class="flex-1 min-w-[80px] h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div class="h-full bg-gray-900 rounded-full" style="width: 90%"></div>
+                    </div>
+                    <span class="font-bold text-gray-900 text-sm md:text-base whitespace-nowrap flex-shrink-0">90%</span>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Twitter/X -->
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="p-3 md:p-4 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-[#1DA1F2] rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span class="text-white font-bold text-sm">X</span>
+                    </div>
+                    <span class="font-bold text-[#1DA1F2] text-sm md:text-base">Twitter/X</span>
+                  </div>
+                </td>
+                <td class="p-3 md:p-4 text-sm md:text-base text-gray-700 min-w-[180px]">Profesional muda, mahasiswa S2/S3</td>
+                <td class="p-3 md:p-4 text-sm md:text-base text-gray-700 min-w-[200px]">Real-time updates, networking, threads</td>
+                <td class="p-3 md:p-4 text-sm md:text-base text-gray-700 font-medium whitespace-nowrap">12.00 - 15.00 WIB</td>
+                <td class="p-3 md:p-4 min-w-[150px]">
+                  <div class="flex items-center gap-2 md:gap-3">
+                    <div class="flex-1 min-w-[80px] h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div class="h-full bg-[#1DA1F2] rounded-full" style="width: 60%"></div>
+                    </div>
+                    <span class="font-bold text-[#1DA1F2] text-sm md:text-base whitespace-nowrap flex-shrink-0">60%</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile View (Card Layout) -->
+    <div class="md:hidden space-y-4">
+      <!-- Facebook Card -->
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-[#1877F2] rounded-lg flex items-center justify-center flex-shrink-0">
+              <span class="text-white font-bold">f</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="font-bold text-[#1877F2] truncate">Facebook</h4>
+              <p class="text-xs text-gray-500 truncate">Orang tua, alumni, komunitas</p>
+            </div>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <div class="text-sm font-bold text-blue-600">70%</div>
+            <div class="text-xs text-gray-500">Engagement</div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-start gap-2">
+            <div class="w-6 h-6 bg-blue-100 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-blue-600 text-xs">📝</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-xs text-gray-500">Content Strategy</p>
+              <p class="text-sm font-medium">Diskusi mendalam, webinar, sharing pengalaman</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-2">
+            <div class="w-6 h-6 bg-blue-100 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-blue-600 text-xs">⏰</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-xs text-gray-500">Optimal Time</p>
+              <p class="text-sm font-medium">19.00 - 22.00 WIB</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-100">
+          <div class="flex items-center gap-2">
+            <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div class="h-full bg-blue-500 rounded-full" style="width: 70%"></div>
+            </div>
+            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">70% Engagement</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instagram Card -->
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCAF45] rounded-lg flex items-center justify-center flex-shrink-0">
+              <span class="text-white font-bold">IG</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="font-bold text-[#E4405F] truncate">Instagram</h4>
+              <p class="text-xs text-gray-500 truncate">Gen Z, siswa SMA, mahasiswa</p>
+            </div>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <div class="text-sm font-bold text-[#E4405F]">85%</div>
+            <div class="text-xs text-gray-500">Engagement</div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-start gap-2">
+            <div class="w-6 h-6 bg-pink-100 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-[#E4405F] text-xs">📷</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-xs text-gray-500">Content Strategy</p>
+              <p class="text-sm font-medium">Visual content, Reels, Stories Q&A</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-2">
+            <div class="w-6 h-6 bg-pink-100 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-[#E4405F] text-xs">⏰</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-xs text-gray-500">Optimal Time</p>
+              <p class="text-sm font-medium">17.00 - 21.00 WIB</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-100">
+          <div class="flex items-center gap-2">
+            <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-[#833AB4] to-[#FD1D1D] rounded-full" style="width: 85%"></div>
+            </div>
+            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">85% Engagement</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TikTok Card -->
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-black rounded-lg flex items-center justify-center flex-shrink-0">
+              <span class="text-white font-bold">TT</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="font-bold text-gray-900 truncate">TikTok</h4>
+              <p class="text-xs text-gray-500 truncate">Gen Z (15-24), siswa & fresh grad</p>
+            </div>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <div class="text-sm font-bold text-gray-900">90%</div>
+            <div class="text-xs text-gray-500">Engagement</div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-start gap-2">
+            <div class="w-6 h-6 bg-gray-100 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-gray-700 text-xs">🎬</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-xs text-gray-500">Content Strategy</p>
+              <p class="text-sm font-medium">Edu-tainment, quick tips, day-in-life</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-2">
+            <div class="w-6 h-6 bg-gray-100 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-gray-700 text-xs">⏰</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-xs text-gray-500">Optimal Time</p>
+              <p class="text-sm font-medium">18.00 - 23.00 WIB</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-100">
+          <div class="flex items-center gap-2">
+            <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div class="h-full bg-gray-900 rounded-full" style="width: 90%"></div>
+            </div>
+            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">90% Engagement</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Twitter/X Card -->
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-[#1DA1F2] rounded-lg flex items-center justify-center flex-shrink-0">
+              <span class="text-white font-bold">X</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 class="font-bold text-[#1DA1F2] truncate">Twitter/X</h4>
+              <p class="text-xs text-gray-500 truncate">Profesional muda, mahasiswa S2/S3</p>
+            </div>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <div class="text-sm font-bold text-[#1DA1F2]">60%</div>
+            <div class="text-xs text-gray-500">Engagement</div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-start gap-2">
+            <div class="w-6 h-6 bg-sky-100 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-[#1DA1F2] text-xs">💬</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-xs text-gray-500">Content Strategy</p>
+              <p class="text-sm font-medium">Real-time updates, networking, threads</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-2">
+            <div class="w-6 h-6 bg-sky-100 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="text-[#1DA1F2] text-xs">⏰</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-xs text-gray-500">Optimal Time</p>
+              <p class="text-sm font-medium">12.00 - 15.00 WIB</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-gray-100">
+          <div class="flex items-center gap-2">
+            <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div class="h-full bg-[#1DA1F2] rounded-full" style="width: 60%"></div>
+            </div>
+            <span class="text-xs font-medium text-gray-700 whitespace-nowrap">60% Engagement</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="mt-6 md:mt-8 p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-white">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <div class="text-center p-3 bg-blue-50 rounded-lg">
+          <div class="text-2xl md:text-3xl font-bold text-blue-600">90%</div>
+          <p class="text-xs md:text-sm text-blue-700 mt-1">TikTok Engagement</p>
+          <p class="text-xs text-blue-600 opacity-75">Tertinggi</p>
+        </div>
+
+        <div class="text-center p-3 bg-pink-50 rounded-lg">
+          <div class="text-2xl md:text-3xl font-bold text-[#E4405F]">85%</div>
+          <p class="text-xs md:text-sm text-[#E4405F] mt-1">Instagram Engagement</p>
+          <p class="text-xs text-[#E4405F] opacity-75">Gen Z Focus</p>
+        </div>
+
+        <div class="text-center p-3 bg-sky-50 rounded-lg">
+          <div class="text-2xl md:text-3xl font-bold text-[#1DA1F2]">12-15 WIB</div>
+          <p class="text-xs md:text-sm text-[#1DA1F2] mt-1">Twitter Optimal Time</p>
+          <p class="text-xs text-[#1DA1F2] opacity-75">Siang hari</p>
+        </div>
+
+        <div class="text-center p-3 bg-purple-50 rounded-lg">
+          <div class="text-2xl md:text-3xl font-bold text-purple-600">19-22 WIB</div>
+          <p class="text-xs md:text-sm text-purple-700 mt-1">Facebook Optimal Time</p>
+          <p class="text-xs text-purple-600 opacity-75">Malam hari</p>
+        </div>
+      </div>
     </div>
   </div>
 

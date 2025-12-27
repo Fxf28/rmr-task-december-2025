@@ -1,0 +1,429 @@
+/* report.css - Final (responsive chart sizing, skeletons, utilities) */
+
+/* -------------------------
+   Theme variables
+   ------------------------- */
+:root {
+  --primary-color: #4f46e5;
+  --secondary-color: #10b981;
+  --accent-color: #f59e0b;
+
+  /* chart height defaults (can be overridden via inline style or specific class) */
+  --chart-height-default: 360px; /* desktop / general */
+  --chart-height-tablet: 360px; /* tablet */
+  --chart-height-mobile: 320px; /* mobile */
+  --chart-height-small: 280px; /* small charts */
+  --chart-height-large: 480px; /* large charts (e.g. timeline, demographic) */
+  --chart-max-height-vh: 60vh; /* cap relative to viewport */
+}
+
+/* -------------------------
+   Brand helpers
+   ------------------------- */
+.bg-solo-primary {
+  background-color: var(--primary-color);
+}
+.bg-solo-secondary {
+  background-color: var(--secondary-color);
+}
+.bg-solo-accent {
+  background-color: var(--accent-color);
+}
+
+/* -------------------------
+   Report Section Base Styles
+   ------------------------- */
+.report-section {
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border-left: 6px solid var(--primary-color);
+  position: relative;
+  overflow: visible; /* allow skeleton / tooltips to overflow slightly */
+}
+
+.report-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* -------------------------
+   Chart wrapper & container
+   -------------------------
+   - .chart-wrapper for card-like background
+   - .chart-container is the element Chart.js will size to (canvas should be child)
+   - Use utility classes (.chart--sm, .chart--md, .chart--lg, .chart--xl)
+*/
+.chart-wrapper {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1rem 0;
+  border: 1px solid #e2e8f0;
+}
+
+/* Default chart container: uses CSS variable for height (easy to override) */
+.chart-container {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  /* prefer max-height (viewport-based) but also allow fixed pixel heights */
+  height: var(--chart-height-default);
+  max-height: var(--chart-max-height-vh);
+  min-height: 220px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: transparent;
+  display: block;
+  /* Ensure canvas inherits container size (Chart.js maintainAspectRatio:false) */
+}
+
+/* size utility classes - prefer these over inline fixed heights */
+.chart-container--sm {
+  height: var(--chart-height-small);
+}
+.chart-container--md {
+  height: var(--chart-height-default);
+}
+.chart-container--lg {
+  height: var(--chart-height-large);
+}
+.chart-container--xl {
+  height: calc(var(--chart-height-large) + 120px);
+}
+
+/* semantic containers */
+.radar-chart-container,
+.polar-chart-container {
+  height: calc(var(--chart-height-default) - 10px);
+  min-height: 300px;
+}
+.stacked-chart-container {
+  height: var(--chart-height-large);
+  min-height: 420px;
+}
+
+/* allow JS to override per-container via inline style, e.g.
+   <div class="chart-container" style="--chart-height-default: 420px"> */
+.chart-container[style] {
+  /* preserve inline variable overrides */
+}
+
+/* -------------------------
+   Chart skeleton placeholder (overlay while chart loads)
+   ------------------------- */
+.chart-skeleton {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), rgba(245, 245, 245, 0.85));
+  backdrop-filter: blur(2px);
+  z-index: 6;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+.chart-skeleton.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.chart-skeleton .pulse {
+  width: 3.25rem;
+  height: 0.8rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #e5e7eb, #f3f4f6, #e5e7eb);
+  animation: skeleton-shimmer 1.2s linear infinite;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+@keyframes skeleton-shimmer {
+  0% {
+    transform: translateX(-30%);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateX(30%);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(70%);
+    opacity: 0.9;
+  }
+}
+.chart-skeleton .label {
+  font-size: 0.75rem;
+  color: #374151;
+  opacity: 0.95;
+}
+
+/* -------------------------
+   Chart title inside cards
+   ------------------------- */
+.chart-title {
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+/* -------------------------
+   Stat Cards / small utilities
+   ------------------------- */
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-top: 4px solid var(--primary-color);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.footnote-ref {
+  background: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  vertical-align: super;
+  line-height: 1;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 2rem 0;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+}
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -0.5rem;
+  top: 0.5rem;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  border: 3px solid white;
+  box-shadow: 0 0 0 3px var(--primary-color);
+}
+
+.country-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: white;
+  border-radius: 999px;
+  margin: 0.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e2e8f0;
+  transition: all 0.22s ease;
+}
+.country-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.platform-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.facebook-icon {
+  background: linear-gradient(135deg, #1877f2, #0d5fbb);
+  color: white;
+}
+.instagram-icon {
+  background: linear-gradient(135deg, #e4405f, #c13584);
+  color: white;
+}
+.tiktok-icon {
+  background: linear-gradient(135deg, #000000, #333333);
+  color: white;
+}
+.twitter-icon {
+  background: linear-gradient(135deg, #1da1f2, #0c8bd9);
+  color: white;
+}
+
+.insight-box {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.06), rgba(16, 185, 129, 0.06));
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1rem 0;
+  border-left: 4px solid var(--primary-color);
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, var(--primary-color), #6366f1);
+  color: white;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.18);
+}
+.back-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.24);
+  background: linear-gradient(135deg, #6366f1, var(--primary-color));
+}
+
+.percentage-badge {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1.125rem;
+  display: inline-block;
+  margin: 0.5rem 0;
+}
+
+/* Table mobile fix */
+table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* -------------------------
+   Accessibility, print, reduced motion
+   ------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .toc-item,
+  .back-button,
+  .stat-card,
+  .chart-skeleton .pulse {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .chart-wrapper {
+    page-break-inside: avoid;
+  }
+}
+
+/* high contrast */
+@media (prefers-contrast: high) {
+  .toc-item,
+  .stat-card {
+    border: 2px solid currentColor !important;
+  }
+}
+
+/* -------------------------
+   Responsive sizing overrides
+   ------------------------- */
+@media (max-width: 1024px) {
+  :root {
+    --chart-height-default: 360px;
+    --chart-height-large: 420px;
+  }
+}
+@media (max-width: 767px) {
+  :root {
+    --chart-height-default: 320px;
+    --chart-height-mobile: 320px;
+    --chart-height-large: 380px;
+  }
+
+  .mobile-scroll-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 1rem;
+  }
+  .mobile-scroll-container::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: white;
+  }
+
+  .prose-report img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* small screens tweaks */
+@media (max-width: 640px) {
+  .hide-on-mobile {
+    display: none;
+  }
+  .stack-on-mobile {
+    flex-direction: column;
+  }
+  .text-responsive {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+  }
+
+  /* Make chart containers a bit tighter on very small screens */
+  .chart-container {
+    min-height: 260px;
+    height: var(--chart-height-mobile);
+  }
+  .chart-container--sm {
+    height: 240px;
+    min-height: 220px;
+  }
+  .chart-container--lg {
+    height: 360px;
+    min-height: 320px;
+  }
+}
+
+/* -------------------------
+   Tip: avoid using hard !important heights in HTML.
+   If you must override, prefer:
+   <div class="chart-container chart-container--lg" style="--chart-height-default:420px"> 
+   ------------------------- */
