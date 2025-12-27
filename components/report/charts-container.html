@@ -1,0 +1,485 @@
+<div class="report-section" id="charts-section">
+  <!-- Header Section -->
+  <div class="mb-10">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 bg-gradient-to-br from-solo-primary to-blue-500 rounded-2xl flex items-center justify-center shadow-lg">
+          <span class="text-2xl text-white">📊</span>
+        </div>
+        <div>
+          <h2 class="text-3xl md:text-4xl font-bold text-solo-dark">Visualisasi Data Kunci</h2>
+          <p class="text-solo-gray mt-2">Analisis statistik & tren dari percakapan digital generasi muda Solo</p>
+        </div>
+      </div>
+      <div class="hidden md:block">
+        <div class="flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full">
+          <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+          <span class="text-sm font-medium text-blue-700">Data Live: Desember 2025</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overview Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-xl border border-blue-200">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+            <span class="text-blue-600 text-lg">📱</span>
+          </div>
+          <div>
+            <p class="text-sm text-blue-700">Platform Analisis</p>
+            <p class="text-lg font-bold text-blue-900">4 Platform</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-xl border border-green-200">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+            <span class="text-green-600 text-lg">🎯</span>
+          </div>
+          <div>
+            <p class="text-sm text-green-700">Data Points</p>
+            <p class="text-lg font-bold text-green-900">1,500+</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+            <span class="text-purple-600 text-lg">👥</span>
+          </div>
+          <div>
+            <p class="text-sm text-purple-700">Sampel Responden</p>
+            <p class="text-lg font-bold text-purple-900">Gen Z Solo</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Charts Grid -->
+  <div class="space-y-10">
+    <!-- Row 1: Platform & Country -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Platform Effectiveness -->
+      <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                <span class="text-white text-sm">🏆</span>
+              </div>
+              <h3 class="text-xl font-bold text-solo-dark">Efektivitas Platform Media Sosial</h3>
+            </div>
+            <p class="text-sm text-gray-500">Skor komparatif dalam menyasar Gen Z Solo (0-100)</p>
+          </div>
+          <div class="hidden md:block">
+            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">Radar Chart</span>
+          </div>
+        </div>
+        <div class="h-72">
+          <canvas id="platform-usage-chart"></canvas>
+        </div>
+        <div class="mt-6 p-4 bg-blue-50 rounded-xl">
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mt-1">
+              <span class="text-blue-600 text-sm">💡</span>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-blue-800">Insight</p>
+              <p class="text-sm text-blue-700">TikTok & Instagram paling efektif untuk engagement, Facebook untuk informasi detail</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Country Distribution -->
+      <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                <span class="text-white text-sm">🌍</span>
+              </div>
+              <h3 class="text-xl font-bold text-solo-dark">Distribusi Negara Tujuan Favorit</h3>
+            </div>
+            <p class="text-sm text-gray-500">Persentase minat berdasarkan analisis percakapan digital</p>
+          </div>
+          <div class="hidden md:block">
+            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Doughnut Chart</span>
+          </div>
+        </div>
+        <div class="h-72">
+          <canvas id="country-distribution-chart"></canvas>
+        </div>
+        <div class="mt-6 p-4 bg-green-50 rounded-xl">
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-1">
+              <span class="text-green-600 text-sm">📈</span>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-green-800">Trend</p>
+              <p class="text-sm text-green-700">Australia & Singapura mendominasi karena kedekatan geografis dan program beasiswa</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Motivation & Decision Journey -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Motivation Factors -->
+      <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-8 h-8 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg flex items-center justify-center">
+                <span class="text-white text-sm">🎯</span>
+              </div>
+              <h3 class="text-xl font-bold text-solo-dark">Faktor Motivasi Studi Luar Negeri</h3>
+            </div>
+            <p class="text-sm text-gray-500">Tingkat kepentingan faktor-faktor dalam pengambilan keputusan (%)</p>
+          </div>
+          <div class="hidden md:block">
+            <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">Bar Chart</span>
+          </div>
+        </div>
+        <div class="h-64">
+          <canvas id="motivation-chart"></canvas>
+        </div>
+        <div class="mt-6 p-4 bg-amber-50 rounded-xl">
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center mt-1">
+              <span class="text-amber-600 text-sm">🔍</span>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-amber-800">Analisis</p>
+              <p class="text-sm text-amber-700">Kualitas pendidikan dan peluang karir menjadi motivasi utama, mengalahkan faktor prestise</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scholarship Interest -->
+      <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                <span class="text-white text-sm">💰</span>
+              </div>
+              <h3 class="text-xl font-bold text-solo-dark">Preferensi Skema Pendanaan</h3>
+            </div>
+            <p class="text-sm text-gray-500">Distribusi minat terhadap berbagai opsi pembiayaan studi</p>
+          </div>
+          <div class="hidden md:block">
+            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">Pie Chart</span>
+          </div>
+        </div>
+        <div class="h-64">
+          <canvas id="scholarship-interest-chart"></canvas>
+        </div>
+        <div class="mt-6 p-4 bg-purple-50 rounded-xl">
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center mt-1">
+              <span class="text-purple-600 text-sm">📊</span>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-purple-800">Finding</p>
+              <p class="text-sm text-purple-700">65% hanya mempertimbangkan beasiswa penuh, menunjukkan sensitivitas harga yang tinggi</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: Decision Journey (Full Width) -->
+    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 shadow-lg border border-blue-200">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-10 h-10 bg-gradient-to-r from-solo-primary to-blue-600 rounded-xl flex items-center justify-center">
+              <span class="text-white text-lg">🔄</span>
+            </div>
+            <h3 class="text-2xl font-bold text-solo-dark">Journey Pengambilan Keputusan</h3>
+          </div>
+          <p class="text-gray-600">Proses evolusi minat dari kesadaran hingga realisasi studi luar negeri (12 bulan)</p>
+        </div>
+        <div class="hidden md:block">
+          <span class="px-3 py-1 bg-solo-primary text-white rounded-full text-sm font-medium">Multi-Line Chart</span>
+        </div>
+      </div>
+      <div class="h-80">
+        <canvas id="decision-journey-chart"></canvas>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+        <div class="bg-white p-4 rounded-xl border border-blue-100">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+              <span class="text-blue-600">📈</span>
+            </div>
+            <div>
+              <p class="font-medium text-blue-800">Puncak Pencarian Info</p>
+              <p class="text-sm text-blue-700">Terjadi di bulan 3-6 setelah awareness</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-blue-100">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+              <span class="text-green-600">📝</span>
+            </div>
+            <div>
+              <p class="font-medium text-green-800">Aplikasi Beasiswa</p>
+              <p class="text-sm text-green-700">Puncak di bulan 7-10 (persiapan akhir)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 4: Concerns & Timeline -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Student Concerns -->
+      <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-8 h-8 bg-gradient-to-r from-red-500 to-rose-500 rounded-lg flex items-center justify-center">
+                <span class="text-white text-sm">⚠️</span>
+              </div>
+              <h3 class="text-xl font-bold text-solo-dark">Tingkat Kekhawatiran Calon Mahasiswa</h3>
+            </div>
+            <p class="text-sm text-gray-500">Level kekhawatiran terhadap berbagai faktor penghambat (%)</p>
+          </div>
+          <div class="hidden md:block">
+            <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium">Polar Area</span>
+          </div>
+        </div>
+        <div class="h-72">
+          <canvas id="concerns-chart"></canvas>
+        </div>
+        <div class="mt-6 p-4 bg-red-50 rounded-xl">
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center mt-1">
+              <span class="text-red-600 text-sm">🔥</span>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-red-800">Pain Point</p>
+              <p class="text-sm text-red-700">Biaya hidup dan kuliah menjadi hambatan terbesar bagi 95% responden</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline Activity -->
+      <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-8 h-8 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-lg flex items-center justify-center">
+                <span class="text-white text-sm">📅</span>
+              </div>
+              <h3 class="text-xl font-bold text-solo-dark">Timeline Aktivitas Sepanjang Tahun</h3>
+            </div>
+            <p class="text-sm text-gray-500">Pola engagement vs aplikasi beasiswa per bulan</p>
+          </div>
+          <div class="hidden md:block">
+            <span class="px-3 py-1 bg-cyan-100 text-cyan-700 rounded-full text-xs font-medium">Line Chart</span>
+          </div>
+        </div>
+        <div class="h-72">
+          <canvas id="timeline-chart"></canvas>
+        </div>
+        <div class="mt-6 p-4 bg-cyan-50 rounded-xl">
+          <div class="flex items-start gap-3">
+            <div class="w-6 h-6 bg-cyan-100 rounded-full flex items-center justify-center mt-1">
+              <span class="text-cyan-600 text-sm">📊</span>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-cyan-800">Seasonality</p>
+              <p class="text-sm text-cyan-700">Aktivitas puncak terjadi Agustus-Oktober (periode aplikasi beasiswa utama)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 5: Demographics (Full Width) -->
+    <div class="bg-gradient-to-r from-solo-primary/5 to-blue-50 rounded-2xl p-6 shadow-lg border border-solo-primary/20">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-10 h-10 bg-gradient-to-r from-solo-primary to-purple-600 rounded-xl flex items-center justify-center">
+              <span class="text-white text-lg">👥</span>
+            </div>
+            <h3 class="text-2xl font-bold text-solo-dark">Profil Demografis Calon Mahasiswa</h3>
+          </div>
+          <p class="text-gray-600">Distribusi usia berdasarkan status pendidikan/pekerjaan (%)</p>
+        </div>
+        <div class="hidden md:block">
+          <span class="px-3 py-1 bg-solo-primary text-white rounded-full text-sm font-medium">Stacked Bar Chart</span>
+        </div>
+      </div>
+      <div class="h-80">
+        <canvas id="demographic-chart"></canvas>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+        <div class="bg-white p-4 rounded-xl border border-solo-primary/20">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <span class="text-blue-600 text-lg">🎓</span>
+            </div>
+            <div>
+              <p class="font-medium text-blue-800">Siswa SMA/Sederajat</p>
+              <p class="text-2xl font-bold text-blue-900">45%</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-solo-primary/20">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <span class="text-green-600 text-lg">🏫</span>
+            </div>
+            <div>
+              <p class="font-medium text-green-800">Mahasiswa S1</p>
+              <p class="text-2xl font-bold text-green-900">35%</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-solo-primary/20">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
+              <span class="text-amber-600 text-lg">💼</span>
+            </div>
+            <div>
+              <p class="font-medium text-amber-800">Fresh Graduate/Profesional</p>
+              <p class="text-2xl font-bold text-amber-900">20%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Statistics -->
+  <div class="mt-12">
+    <div class="flex items-center justify-between mb-8">
+      <h3 class="text-2xl font-bold text-solo-dark">📊 Statistik Kunci</h3>
+      <div class="flex items-center gap-2">
+        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+        <span class="text-sm text-gray-600">Data Terbaru Desember 2025</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Stat Card 1 -->
+      <div class="stat-card group">
+        <div class="flex items-start justify-between mb-4">
+          <div class="p-3 bg-blue-100 rounded-xl group-hover:scale-110 transition-transform duration-300">
+            <span class="text-2xl text-blue-600">📱</span>
+          </div>
+          <span class="text-3xl font-bold text-solo-primary bg-blue-50 px-3 py-1 rounded-lg">83.3%</span>
+        </div>
+        <h4 class="font-bold text-gray-800 text-lg mb-2">Gen Z Aktif di Instagram</h4>
+        <p class="text-gray-600 text-sm">Platform utama pencarian informasi studi luar negeri</p>
+        <div class="mt-4 pt-4 border-t border-gray-100">
+          <div class="flex items-center text-xs text-gray-500">
+            <span class="flex-1">Tingkat Engagement</span>
+            <span class="font-bold text-green-600">Tinggi</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stat Card 2 -->
+      <div class="stat-card group">
+        <div class="flex items-start justify-between mb-4">
+          <div class="p-3 bg-green-100 rounded-xl group-hover:scale-110 transition-transform duration-300">
+            <span class="text-2xl text-green-600">💰</span>
+          </div>
+          <span class="text-3xl font-bold" style="color: #10b981; background-color: #f0fdf4; padding: 0.25rem 0.75rem; border-radius: 0.5rem">65%</span>
+        </div>
+        <h4 class="font-bold text-gray-800 text-lg mb-2">Prioritas Beasiswa Penuh</h4>
+        <p class="text-gray-600 text-sm">Hanya berminat dengan program full funding</p>
+        <div class="mt-4 pt-4 border-t border-gray-100">
+          <div class="flex items-center text-xs text-gray-500">
+            <span class="flex-1">Critical Factor</span>
+            <span class="font-bold text-red-600">Wajib</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stat Card 3 -->
+      <div class="stat-card group">
+        <div class="flex items-start justify-between mb-4">
+          <div class="p-3 bg-amber-100 rounded-xl group-hover:scale-110 transition-transform duration-300">
+            <span class="text-2xl text-amber-600">⚠️</span>
+          </div>
+          <span class="text-3xl font-bold" style="color: #f59e0b; background-color: #fffbeb; padding: 0.25rem 0.75rem; border-radius: 0.5rem">95%</span>
+        </div>
+        <h4 class="font-bold text-gray-800 text-lg mb-2">Khawatir Biaya Hidup</h4>
+        <p class="text-gray-600 text-sm">Faktor penghambat utama studi luar negeri</p>
+        <div class="mt-4 pt-4 border-t border-gray-100">
+          <div class="flex items-center text-xs text-gray-500">
+            <span class="flex-1">Pain Point Level</span>
+            <span class="font-bold text-red-600">Kritis</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stat Card 4 -->
+      <div class="stat-card group">
+        <div class="flex items-start justify-between mb-4">
+          <div class="p-3 bg-red-100 rounded-xl group-hover:scale-110 transition-transform duration-300">
+            <span class="text-2xl text-red-600">🎯</span>
+          </div>
+          <span class="text-3xl font-bold" style="color: #ef4444; background-color: #fef2f2; padding: 0.25rem 0.75rem; border-radius: 0.5rem">88%</span>
+        </div>
+        <h4 class="font-bold text-gray-800 text-lg mb-2">Motivasi Peluang Karir</h4>
+        <p class="text-gray-600 text-sm">Tujuan utama untuk studi ke luar negeri</p>
+        <div class="mt-4 pt-4 border-t border-gray-100">
+          <div class="flex items-center text-xs text-gray-500">
+            <span class="flex-1">Driver Utama</span>
+            <span class="font-bold text-green-600">Strong</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Methodology Note -->
+  <div class="mt-12">
+    <div class="bg-gradient-to-r from-solo-primary/10 to-blue-50 rounded-2xl p-8 border border-solo-primary/20">
+      <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+        <div class="flex-shrink-0">
+          <div class="w-16 h-16 bg-gradient-to-br from-solo-primary to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="flex-1">
+          <h4 class="text-xl font-bold text-solo-dark mb-3">📝 Catatan Metodologi & Validasi Data</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p class="text-gray-700 mb-3"><span class="font-semibold">Sumber Data:</span> Analisis percakapan digital di 4 platform media sosial (Facebook, Instagram, TikTok, X/Twitter) selama periode Januari-Desember 2025.</p>
+              <p class="text-gray-700"><span class="font-semibold">Sampel:</span> 1,500+ data points dari warga Solo usia 15-25 tahun.</p>
+            </div>
+            <div>
+              <p class="text-gray-700 mb-3"><span class="font-semibold">Validasi:</span> Cross-check dengan sumber resmi, verifikasi akun kredibel, dan analisis temporal.</p>
+              <p class="text-gray-700"><span class="font-semibold">Perhitungan:</span> Persentase berdasarkan volume dan sentimen percakapan.</p>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">Social Listening</span>
+            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Cross-Validation</span>
+            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">Sentiment Analysis</span>
+            <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">Temporal Analysis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

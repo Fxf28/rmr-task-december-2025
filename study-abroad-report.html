@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Riset Minat Studi Luar Negeri - Solo Youth Insights 2025</title>
+
+    <!-- Favicon Configuration -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="assets/favicon/site.webmanifest" />
+    <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#292F36" />
+    <meta name="msapplication-TileImage" content="assets/favicon/android-chrome-192x192.png" />
+    <meta name="theme-color" content="#292F36" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Laporan riset lengkap tentang minat studi luar negeri generasi muda Surakarta. Analisis data dari Facebook, Instagram, TikTok, dan Twitter." />
+    <meta name="keywords" content="studi luar negeri, beasiswa, Solo, Surakarta, pendidikan, riset, data, TikTok, Instagram" />
+
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/charts.css" />
+
+    <!-- Report Specific CSS -->
+    <style>
+      :root {
+        --primary-color: #4f46e5;
+        --secondary-color: #10b981;
+        --accent-color: #f59e0b;
+      }
+
+      .bg-solo-primary {
+        background-color: var(--primary-color);
+      }
+
+      .bg-solo-secondary {
+        background-color: var(--secondary-color);
+      }
+
+      .bg-solo-accent {
+        background-color: var(--accent-color);
+      }
+
+      .report-section {
+        background: white;
+        border-radius: 16px;
+        padding: 2.5rem;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        border-left: 6px solid var(--primary-color);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .report-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        opacity: 0.8;
+      }
+
+      .chart-container {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        border: 1px solid #e2e8f0;
+        position: relative;
+      }
+
+      .chart-title {
+        color: #1e293b;
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border-top: 4px solid var(--primary-color);
+        transition: transform 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .footnote-ref {
+        background: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        margin: 0 0.25rem;
+        vertical-align: super;
+        line-height: 1;
+      }
+
+      .timeline {
+        position: relative;
+        padding-left: 2rem;
+        margin: 2rem 0;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 2rem;
+        padding-left: 1.5rem;
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -0.5rem;
+        top: 0.5rem;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        border: 3px solid white;
+        box-shadow: 0 0 0 3px var(--primary-color);
+      }
+
+      .country-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        background: white;
+        border-radius: 50px;
+        margin: 0.25rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border: 2px solid #e2e8f0;
+        transition: all 0.3s ease;
+      }
+
+      .country-tag:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .platform-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .facebook-icon {
+        background: linear-gradient(135deg, #1877f2, #0d5fbb);
+        color: white;
+      }
+      .instagram-icon {
+        background: linear-gradient(135deg, #e4405f, #c13584);
+        color: white;
+      }
+      .tiktok-icon {
+        background: linear-gradient(135deg, #000000, #333333);
+        color: white;
+      }
+      .twitter-icon {
+        background: linear-gradient(135deg, #1da1f2, #0c8bd9);
+        color: white;
+      }
+
+      .insight-box {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(16, 185, 129, 0.1));
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border-left: 4px solid var(--primary-color);
+      }
+
+      .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, var(--primary-color), #6366f1);
+        color: white;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        margin: 2rem 0;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+      }
+
+      .back-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+        background: linear-gradient(135deg, #6366f1, var(--primary-color));
+      }
+
+      .percentage-badge {
+        background: var(--primary-color);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.25rem;
+        display: inline-block;
+        margin: 0.5rem 0;
+      }
+
+      .toc-item {
+        transition: all 0.3s ease;
+      }
+
+      .toc-item:hover {
+        transform: translateY(-2px);
+      }
+    </style>
+
+    <!-- Tailwind Configuration -->
+    <script src="assets/js/config.js"></script>
+  </head>
+  <body class="bg-solo-light text-solo-dark font-sans min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-solo-dark text-white p-4 sticky top-0 z-50 shadow-lg">
+      <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <a href="index.html" class="flex items-center gap-3 hover:bg-solo-primary/10 p-2 rounded-lg transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span class="font-semibold">Kembali ke Dashboard</span>
+        </a>
+        <div class="flex items-center gap-3">
+          <div class="h-8 w-8 bg-solo-primary rounded-full flex items-center justify-center">
+            <span class="font-bold text-white">S</span>
+          </div>
+          <span class="text-lg font-bold">Solo Youth Insights 2025</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Report Content -->
+    <main class="max-w-6xl mx-auto px-4 py-8" id="report-content">
+      <!-- Progress Indicator -->
+      <div class="sticky top-20 z-40 bg-white/80 backdrop-blur-sm rounded-xl p-4 mb-8 shadow-lg">
+        <div class="flex justify-between items-center">
+          <div class="text-sm text-gray-600">Progress Membaca: <span id="progress-percent">0%</span></div>
+          <div class="w-64 bg-gray-200 rounded-full h-2">
+            <div id="progress-bar" class="bg-solo-primary h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Header -->
+      <section class="text-center mb-16">
+        <div class="inline-block mb-6 px-6 py-3 bg-gradient-to-r from-solo-primary to-blue-500 rounded-full">
+          <span class="text-white font-semibold">Riset Pendidikan Internasional</span>
+        </div>
+        <h1 class="text-5xl md:text-6xl font-bold text-solo-dark mb-6 leading-tight">
+          <span class="bg-gradient-to-r from-solo-primary to-blue-600 bg-clip-text text-transparent"> Eksodus Akademik </span><br />
+          <span class="text-3xl md:text-4xl">Mengurai Minat Studi Luar Negeri</span><br />
+          <span class="text-2xl md:text-3xl text-solo-gray">Generasi Muda Surakarta</span>
+        </h1>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">Analisis komprehensif berbasis social listening terhadap perilaku, motivasi, dan tantangan pelajar Solo dalam mengejar pendidikan tinggi di luar negeri.</p>
+
+        <div class="flex flex-wrap justify-center gap-4 mt-8">
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+            <span class="text-gray-700">Data Terbaru: Desember 2025</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+            <span class="text-gray-700">4 Platform Media Sosial</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+            <span class="text-gray-700">1,500+ Data Point</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Table of Contents -->
+      <section class="mb-12 bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+        <h2 class="text-2xl font-bold text-solo-dark mb-6 flex items-center gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-solo-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+          </svg>
+          Daftar Isi
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <a href="#charts-container" class="toc-item p-4 border border-gray-200 rounded-lg hover:border-solo-primary hover:bg-blue-50 transition">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-solo-primary/10 rounded-lg flex items-center justify-center">
+                <span class="text-solo-primary font-bold">0</span>
+              </div>
+              <span class="font-semibold">Visualisasi Data</span>
+            </div>
+          </a>
+          <a href="#executive-summary" class="toc-item p-4 border border-gray-200 rounded-lg hover:border-solo-primary hover:bg-blue-50 transition">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-solo-primary/10 rounded-lg flex items-center justify-center">
+                <span class="text-solo-primary font-bold">1</span>
+              </div>
+              <span class="font-semibold">Executive Summary</span>
+            </div>
+          </a>
+          <a href="#methodology" class="toc-item p-4 border border-gray-200 rounded-lg hover:border-solo-primary hover:bg-blue-50 transition">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-solo-primary/10 rounded-lg flex items-center justify-center">
+                <span class="text-solo-primary font-bold">2</span>
+              </div>
+              <span class="font-semibold">Metodologi & Sampel</span>
+            </div>
+          </a>
+          <a href="#platform-analysis" class="toc-item p-4 border border-gray-200 rounded-lg hover:border-solo-primary hover:bg-blue-50 transition">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-solo-primary/10 rounded-lg flex items-center justify-content">
+                <span class="text-solo-primary font-bold">3</span>
+              </div>
+              <span class="font-semibold">Analisis Platform</span>
+            </div>
+          </a>
+          <a href="#demographics" class="toc-item p-4 border border-gray-200 rounded-lg hover:border-solo-primary hover:bg-blue-50 transition">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-solo-primary/10 rounded-lg flex items-center justify-center">
+                <span class="text-solo-primary font-bold">4</span>
+              </div>
+              <span class="font-semibold">Demografi & Psikografi</span>
+            </div>
+          </a>
+          <a href="#behavior" class="toc-item p-4 border border-gray-200 rounded-lg hover:border-solo-primary hover:bg-blue-50 transition">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-solo-primary/10 rounded-lg flex items-center justify-center">
+                <span class="text-solo-primary font-bold">5</span>
+              </div>
+              <span class="font-semibold">Peta Perilaku</span>
+            </div>
+          </a>
+          <a href="#insights" class="toc-item p-4 border border-gray-200 rounded-lg hover:border-solo-primary hover:bg-blue-50 transition">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-solo-primary/10 rounded-lg flex items-center justify-center">
+                <span class="text-solo-primary font-bold">6</span>
+              </div>
+              <span class="font-semibold">Insight Strategis</span>
+            </div>
+          </a>
+          <a href="#footnotes" class="toc-item p-4 border border-gray-200 rounded-lg hover:border-solo-primary hover:bg-blue-50 transition">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-solo-primary/10 rounded-lg flex items-center justify-center">
+                <span class="text-solo-primary font-bold">7</span>
+              </div>
+              <span class="font-semibold">Referensi & Catatan</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Chart Container -->
+      <div id="charts-container"></div>
+
+      <!-- Report Sections -->
+      <div id="report-sections"></div>
+
+      <!-- Back to Dashboard Button -->
+      <div class="text-center mt-12 mb-16">
+        <a href="index.html" class="back-button">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Kembali ke Dashboard Utama
+        </a>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- JavaScript Files -->
+    <script src="assets/js/charts.js"></script>
+    <script src="assets/js/report/chart.js"></script>
+    <script src="assets/js/report-content.js"></script>
+
+    <!-- Scroll Progress and Navigation -->
+    <script>
+      // Scroll progress indicator
+      window.addEventListener("scroll", function () {
+        const content = document.getElementById("report-content");
+        if (!content) return;
+
+        const contentHeight = content.offsetHeight;
+        const windowHeight = window.innerHeight;
+        const scrollTop = window.pageYOffset;
+
+        const progress = ((scrollTop + windowHeight) / (contentHeight + windowHeight)) * 100;
+        const progressBar = document.getElementById("progress-bar");
+        const progressPercent = document.getElementById("progress-percent");
+
+        if (progressBar && progressPercent) {
+          const percent = Math.min(100, Math.max(0, progress));
+          progressBar.style.width = percent + "%";
+          progressPercent.textContent = Math.round(percent) + "%";
+        }
+      });
+
+      // Smooth scroll for table of contents
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".toc-item").forEach((item) => {
+          item.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+              window.scrollTo({
+                top: targetElement.offsetTop - 100,
+                behavior: "smooth",
+              });
+            }
+          });
+        });
+      });
+
+      // Component Loader
+      async function loadComponent(componentName, targetId) {
+        try {
+          const response = await fetch(`components/${componentName}.html`);
+          if (response.ok) {
+            const html = await response.text();
+            document.getElementById(targetId).innerHTML = html;
+          } else {
+            console.warn(`File not found: components/${componentName}.html`);
+          }
+        } catch (error) {
+          console.error(`Error loading ${componentName}:`, error);
+        }
+      }
+
+      // Load footer
+      document.addEventListener("DOMContentLoaded", function () {
+        loadComponent("footer", "footer-container");
+
+        // Load report content
+        const reportContent = new ReportContent();
+        reportContent.loadComponents();
+      });
+    </script>
+  </body>
+</html>
