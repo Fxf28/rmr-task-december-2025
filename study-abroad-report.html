@@ -192,6 +192,19 @@
       </div>
     </main>
 
+    <!-- Scroll to Top Button (visible after scroll) -->
+    <button
+      id="scrollToTopBtn"
+      type="button"
+      aria-label="Kembali ke atas"
+      class="hidden fixed right-4 bottom-6 md:right-6 md:bottom-8 z-50 p-3 md:p-3 rounded-full bg-solo-primary text-white shadow-xl hover:scale-105 transform-gpu transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-solo-primary/40"
+    >
+      <!-- chevron-up icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+      </svg>
+    </button>
+
     <!-- JavaScript Files -->
     <script src="assets/js/charts.js"></script>
     <script src="assets/js/report/chart.js"></script>
@@ -416,6 +429,83 @@
           applyResponsiveClasses();
         }, 250);
       });
+
+      // ---------- Scroll to Top logic ----------
+      (function () {
+        const btn = document.getElementById("scrollToTopBtn");
+        if (!btn) return;
+
+        const SHOW_AFTER = 300; // px scrolled before showing
+
+        // Respect user prefers-reduced-motion for the scroll behavior
+        const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        function toggleVisibility() {
+          const y = window.pageYOffset || document.documentElement.scrollTop;
+          if (y > SHOW_AFTER) {
+            btn.classList.remove("hidden");
+            btn.setAttribute("aria-hidden", "false");
+          } else {
+            btn.classList.add("hidden");
+            btn.setAttribute("aria-hidden", "true");
+          }
+        }
+
+        // smooth scroll handler
+        function scrollToTop() {
+          try {
+            window.scrollTo({ top: 0, behavior: prefersReduced ? "auto" : "smooth" });
+          } catch (err) {
+            // fallback if browser doesn't support smooth option
+            if (prefersReduced) {
+              window.scrollTo(0, 0);
+            } else {
+              // simple animated fallback
+              let current = window.pageYOffset || document.documentElement.scrollTop;
+              const step = Math.max(20, Math.floor(current / 15));
+              const timer = setInterval(() => {
+                current -= step;
+                if (current <= 0) {
+                  clearInterval(timer);
+                  window.scrollTo(0, 0);
+                } else {
+                  window.scrollTo(0, current);
+                }
+              }, 12);
+            }
+          }
+        }
+
+        // show/hide on scroll (debounced)
+        let svTimer;
+        window.addEventListener(
+          "scroll",
+          () => {
+            clearTimeout(svTimer);
+            svTimer = setTimeout(toggleVisibility, 80);
+          },
+          { passive: true }
+        );
+
+        // click
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          scrollToTop();
+          btn.blur();
+        });
+
+        // keyboard accessibility: Enter/Space
+        btn.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+            e.preventDefault();
+            scrollToTop();
+          }
+        });
+
+        // init visibility
+        toggleVisibility();
+      })();
+      // ---------- end scroll to top logic ----------
     </script>
   </body>
 </html>

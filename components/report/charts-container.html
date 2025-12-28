@@ -78,15 +78,17 @@
         </div>
       </div>
 
-      <!-- container has data-chart-id and high priority so chart.js can initialize early -->
+      <!-- container has data-chart-id and high priority -->
       <div class="chart-container relative h-64 sm:h-72 md:h-80 lg:h-96 w-full" data-chart-id="platform-usage-chart" data-chart-priority="high" role="region" aria-label="Efektivitas Platform Media Sosial">
         <!-- skeleton (visible until chart:ready) -->
-        <div class="chart-skeleton" role="status" aria-live="polite" aria-hidden="false">
+        <div class="chart-skeleton" role="status" aria-live="polite">
           <div class="pulse" aria-hidden="true"></div>
           <div class="label">Memuat visual…</div>
         </div>
 
-        <canvas id="platform-usage-chart" aria-hidden="false" width="400" height="400"></canvas>
+        <canvas id="platform-usage-chart" aria-hidden="false"></canvas>
+
+        <noscript class="mt-2 text-sm text-gray-500">Chart tidak tersedia — aktifkan JavaScript untuk visual interaktif.</noscript>
       </div>
 
       <div class="mt-4 md:mt-6 p-3 md:p-4 bg-blue-50 rounded-lg md:rounded-xl">
@@ -125,7 +127,8 @@
           <div class="label">Memuat visual…</div>
         </div>
 
-        <canvas id="country-distribution-chart" width="400" height="400"></canvas>
+        <canvas id="country-distribution-chart"></canvas>
+        <noscript class="mt-2 text-sm text-gray-500">Chart tidak tersedia — aktifkan JavaScript untuk visual interaktif.</noscript>
       </div>
 
       <div class="mt-4 md:mt-6 p-3 md:p-4 bg-green-50 rounded-lg md:rounded-xl">
@@ -164,7 +167,8 @@
           <div class="label">Memuat visual…</div>
         </div>
 
-        <canvas id="motivation-chart" width="600" height="320"></canvas>
+        <canvas id="motivation-chart"></canvas>
+        <noscript class="mt-2 text-sm text-gray-500">Chart tidak tersedia — aktifkan JavaScript untuk visual interaktif.</noscript>
       </div>
 
       <div class="mt-4 md:mt-6 p-3 md:p-4 bg-amber-50 rounded-lg md:rounded-xl">
@@ -203,7 +207,8 @@
           <div class="label">Memuat visual…</div>
         </div>
 
-        <canvas id="scholarship-interest-chart" width="400" height="400"></canvas>
+        <canvas id="scholarship-interest-chart"></canvas>
+        <noscript class="mt-2 text-sm text-gray-500">Chart tidak tersedia — aktifkan JavaScript untuk visual interaktif.</noscript>
       </div>
 
       <div class="mt-4 md:mt-6 p-3 md:p-4 bg-purple-50 rounded-lg md:rounded-xl">
@@ -242,7 +247,8 @@
           <div class="label">Memuat visual…</div>
         </div>
 
-        <canvas id="decision-journey-chart" width="900" height="420"></canvas>
+        <canvas id="decision-journey-chart"></canvas>
+        <noscript class="mt-2 text-sm text-gray-500">Chart tidak tersedia — aktifkan JavaScript untuk visual interaktif.</noscript>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-4 md:mt-6">
@@ -294,7 +300,8 @@
           <div class="label">Memuat visual…</div>
         </div>
 
-        <canvas id="concerns-chart" width="500" height="500"></canvas>
+        <canvas id="concerns-chart"></canvas>
+        <noscript class="mt-2 text-sm text-gray-500">Chart tidak tersedia — aktifkan JavaScript untuk visual interaktif.</noscript>
       </div>
 
       <div class="mt-4 md:mt-6 p-3 md:p-4 bg-red-50 rounded-lg md:rounded-xl">
@@ -333,7 +340,8 @@
           <div class="label">Memuat visual…</div>
         </div>
 
-        <canvas id="timeline-chart" width="700" height="320"></canvas>
+        <canvas id="timeline-chart"></canvas>
+        <noscript class="mt-2 text-sm text-gray-500">Chart tidak tersedia — aktifkan JavaScript untuk visual interaktif.</noscript>
       </div>
 
       <div class="mt-4 md:mt-6 p-3 md:p-4 bg-cyan-50 rounded-lg md:rounded-xl">
@@ -372,7 +380,8 @@
           <div class="label">Memuat visual…</div>
         </div>
 
-        <canvas id="demographic-chart" width="900" height="420"></canvas>
+        <canvas id="demographic-chart"></canvas>
+        <noscript class="mt-2 text-sm text-gray-500">Chart tidak tersedia — aktifkan JavaScript untuk visual interaktif.</noscript>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 mt-4 md:mt-6">
