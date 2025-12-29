@@ -670,7 +670,9 @@ class ReportCharts {
   buildScholarshipConfig() {
     const opts = this.getResponsiveOptions();
     const isMobile = this.isMobile;
+
     const labels = isMobile ? ["Penuh", "Parsial", "Pinjaman", "Mandiri", "Sponsor"] : ["Beasiswa Penuh", "Beasiswa Parsial", "Pinjaman Pendidikan", "Biaya Mandiri", "Sponsor Perusahaan"];
+
     const data = [65, 20, 10, 3, 2];
 
     return {
@@ -686,7 +688,35 @@ class ReportCharts {
           },
         ],
       },
-      options: { responsive: true, maintainAspectRatio: !isMobile, aspectRatio: isMobile ? 1 : 1.2, plugins: { legend: { position: isMobile ? "bottom" : "right", labels: { font: { size: isMobile ? 13 : opts.fontSizes.legend } } } } },
+      options: {
+        responsive: true,
+        maintainAspectRatio: !isMobile,
+        aspectRatio: isMobile ? 1 : 1.2,
+        plugins: {
+          legend: {
+            position: isMobile ? "bottom" : "right",
+            labels: {
+              font: { size: isMobile ? 13 : opts.fontSizes.legend },
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                const dataset = ctx.dataset.data;
+                const total = dataset.reduce((a, b) => a + b, 0);
+                const value = ctx.parsed;
+                const percentage = ((value / total) * 100).toFixed(1);
+
+                return `${ctx.label}: ${percentage}%`;
+              },
+            },
+            bodyFont: {
+              size: opts.fontSizes.tooltip,
+              family: "'Poppins', sans-serif",
+            },
+          },
+        },
+      },
     };
   }
 
